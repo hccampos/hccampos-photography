@@ -1,0 +1,62 @@
+@import "_vars";
+@import "_mixins";
+
+.album {
+	@include display(flex);
+	@include align-items(flex-start);
+
+	position: relative;
+	height: $album-height;
+	padding: 0;
+	overflow: hidden;
+	margin-bottom: $double-padding;
+
+	@include transition (opacity 1.0s ease-in 0s);
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	&.loaded {
+		opacity: 1;
+	}
+
+	&.loading {
+		opacity: 0
+	}
+
+	.cover {
+		@include flex-shrink(0);
+		@include flex-grow(0);
+		position: relative;
+		background-size: cover;
+		background-position: 50%;
+		width: $album-height * $album-cover-aspect;
+		height: 100%;
+	}
+
+	.info {
+		@include display(flex);
+		@include flex-direction(column);
+		@include align-items(flex-start);
+		margin-left: $double-padding;
+	}
+
+	.title {
+		width: 100%;
+		font-size: 100px;
+		line-height: 85px;
+		text-transform: uppercase;
+		margin-bottom: $half-padding;
+		font-family: $titles-font;
+	}
+
+	.description {
+		font-size: 25px;
+	}
+
+	.view-button {
+		margin-top: $double-padding;
+		@include align-self(center);
+	}
+}

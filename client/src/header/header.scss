@@ -1,0 +1,79 @@
+@import "_vars";
+@import "_mixins";
+
+@include keyframes(rainbow) {
+	0%   { color: darken(#3498db, 15%); }
+	20%  { color: #C91322; }
+	40%  { color: darken(#ce097f, 20%); }
+	60%  { color: darken(#f1c40f, 25%); }
+	80%  { color: #d35400; }
+	100% { color: darken(#3498db, 15%); }
+}
+
+header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: $header-height;
+	padding: $half-padding $padding;
+	padding-top: $half-padding + 1px;
+	z-index: 100;
+	background: transparentize($bg-color, 0.03);
+	@include transform(translate3d(0,0,0));
+
+	h1 {
+		margin: 0;
+		padding: 0;
+		height: $header-height - $padding;
+		overflow: hidden;
+	}
+
+	a {
+		display: inline-block;
+		margin: 0;
+		text-decoration: none;
+		text-transform: uppercase;
+		color: inherit;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		.name {
+			font-family: "Adam";
+			float: left;
+			margin-right: $half-padding / 2;
+			color: $text-color;
+		}
+
+		.hugo {
+			display: block;
+			font-size: 30px;
+			line-height: 24px;
+		}
+
+		.campos {
+			display: block;
+			font-size: 21px;
+			line-height: 20px;
+		}
+
+		.photography {
+			display: inline-block;
+			font-family: "Adamas";
+			font-size: 42px;
+			line-height: 45px;
+			font-weight: normal;
+			color: $header-secondary-color;
+
+			@include animation-name(rainbow);
+			@include animation-duration(30s);
+			@include animation-timing-function(ease);
+			@include animation-iteration-count(infinite);
+		}
+	}
+}

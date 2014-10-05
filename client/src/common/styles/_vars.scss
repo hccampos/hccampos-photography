@@ -1,0 +1,27 @@
+// Colors
+$dark-color: #444;
+$bright-color: white;
+
+$bg-color: $bright-color;
+$header-secondary-color: #103155;
+$text-color: $dark-color;
+
+// Fonts
+$body-font: "Forum";
+$titles-font: "Forum";
+
+// Sizes
+$font-size: 16px;
+$padding: 30px;
+$half-padding: $padding / 2;
+$double-padding: $padding * 2;
+$border-radius: 5px;
+
+$header-height: 75px;
+
+$album-height: 450px;
+$album-cover-aspect: 16 / 9;
+
+// Others
+
+$page-transition-duration: 0.5s;
