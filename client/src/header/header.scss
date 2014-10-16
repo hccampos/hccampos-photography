@@ -2,12 +2,12 @@
 @import "_mixins";
 
 @include keyframes(rainbow) {
-	0%   { color: darken(#3498db, 15%); }
-	20%  { color: #C91322; }
-	40%  { color: darken(#ce097f, 20%); }
-	60%  { color: darken(#f1c40f, 25%); }
-	80%  { color: #d35400; }
-	100% { color: darken(#3498db, 15%); }
+	0%   { color: #3498db; }
+	20%  { color: lighten(#C91322, 30%); }
+	40%  { color: lighten(#ce097f, 20%); }
+	60%  { color: #f1c40f; }
+	80%  { color: lighten(#d35400, 10%); }
+	100% { color: #3498db; }
 }
 
 header {
@@ -19,7 +19,8 @@ header {
 	padding: $half-padding $padding;
 	padding-top: $half-padding + 1px;
 	z-index: 100;
-	background: transparentize($bg-color, 0.03);
+	background: $bg-color;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 	@include transform(translate3d(0,0,0));
 
 	h1 {

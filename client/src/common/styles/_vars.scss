@@ -1,10 +1,10 @@
 // Colors
-$dark-color: #444;
-$bright-color: white;
+$dark-color: #111;
+$bright-color: darken(white, 20%);
 
-$bg-color: $bright-color;
+$bg-color: $dark-color;
 $header-secondary-color: #103155;
-$text-color: $dark-color;
+$text-color: $bright-color;
 
 // Fonts
 $body-font: "Forum";
@@ -24,4 +24,5 @@ $album-cover-aspect: 16 / 9;
 
 // Others
 
+$photo-transition-duration: 0.2s;
 $page-transition-duration: 0.5s;

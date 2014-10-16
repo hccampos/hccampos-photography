@@ -8,6 +8,8 @@ body {
 	font-family: $body-font;
 	color: $text-color;
 	padding-top: $header-height;
+	background: $bg-color;
+	min-height: 100%;
 }
 
 * {
@@ -15,8 +17,6 @@ body {
 }
 
 .view {
-	padding: $double-padding;
-
 	.page {
 		opacity: 0;
 		@include transition(opacity $page-transition-duration ease-in-out);
@@ -37,15 +37,16 @@ button,
 	padding: $half-padding ($double-padding);
 	line-height: $font-size * 2;
 	padding-bottom: $half-padding * 0.7;
-	border: solid 3px $dark-color;
+	border: solid 3px $bright-color;
 
 	@include transition(all 0.2s);
 
 	&:hover {
 		background: $text-color;
-		color: darken(white, 0.1);
+		color: $dark-color;
 	}
 }
 
 @import "header/header";
-@import "home/home";
+@import "home/home-view";
+@import "album/album-view";

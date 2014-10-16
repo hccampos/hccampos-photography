@@ -1,21 +1,21 @@
 _ = require('lodash')
 BaseView = require('../BaseView')
-AlbumView = require('./AlbumView')
+AlbumView = require('./album/HomeAlbumView')
 
 HomeView = BaseView.extend
-	className: 'home-view'
+	className: 'home'
 	template: require('./home-view.hbs')
-	data: {}
 
 	initialize: (options) ->
-		_.extend(@data, options)
+		@data = _.extend({}, options)
 
 	render: (options) ->
 		BaseView.prototype.render.call(@, options)
 
 		listEl = @el.querySelector('.album-list')
+		listEl.innerHTML = ''
 
-		_.forEach @data.albums, (album) ->
+		for album in @data.albums
 			albumView = new AlbumView(album)
 			albumView.render()
 			listEl.appendChild(albumView.el)

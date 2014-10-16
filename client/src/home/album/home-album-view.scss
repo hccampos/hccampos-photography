@@ -1,7 +1,7 @@
 @import "_vars";
 @import "_mixins";
 
-.album {
+.home-album {
 	@include display(flex);
 	@include align-items(flex-start);
 

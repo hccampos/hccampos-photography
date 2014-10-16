@@ -1,16 +1,16 @@
 _ = require('lodash')
 Promise = require('promiscuous')
-BaseView = require('../BaseView')
-LoadUtils = require('../common/LoadUtils')
+BaseView = require('../../BaseView')
+LoadUtils = require('../../common/LoadUtils')
 
 LOADED_CLASS = 'loaded'
 LOADING_CLASS = 'loading'
 
 
-AlbumView = BaseView.extend
+HomeAlbumView = BaseView.extend
 	tagName: 'li'
-	className: 'album'
-	template: require('./album.hbs')
+	className: 'home-album'
+	template: require('./home-album-view.hbs')
 	data: {}
 
 	initialize: (options) ->
@@ -38,4 +38,4 @@ AlbumView = BaseView.extend
 				coverEl.style.backgroundImage = "url('#{src}')"
 
 
-module.exports = AlbumView
+module.exports = HomeAlbumView

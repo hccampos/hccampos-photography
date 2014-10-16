@@ -22,7 +22,7 @@ BaseView = Backbone.View.extend
 		new Promise (resolve, reject) =>
 			onTransitionEnd = =>
 				@el.classList.remove(TRANSITION_IN_CLASS)
-				resolve()
+				resolve(@)
 
 			transition = =>
 				@el.classList.add(VISIBLE_CLASS)
@@ -35,7 +35,7 @@ BaseView = Backbone.View.extend
 		new Promise (resolve, reject) =>
 			onTransitionEnd = =>
 				@el.classList.remove(TRANSITION_OUT_CLASS)
-				resolve()
+				resolve(@)
 
 			@el.classList.remove(VISIBLE_CLASS)
 			@el.classList.add(TRANSITION_OUT_CLASS)

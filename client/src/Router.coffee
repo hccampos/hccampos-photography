@@ -1,8 +1,5 @@
 LoadUtils = require('./common/LoadUtils')
 Backbone = require('exoskeleton')
-HomeView = require('./home/HomeView')
-AlbumView = require('./album/AlbumView')
-PhotoView = require('./photo/PhotoView')
 
 Router = Backbone.Router.extend
 	initialize: (options) ->
@@ -19,14 +16,12 @@ Router = Backbone.Router.extend
 			replace: false
 
 	home: ->
-		LoadUtils.loadJSON('/data/albums.json')
-		.then (albums) =>
-			@app.goto(new HomeView(albums: albums))
+		@app.showAlbums()
 
-	album: (id) ->
-		@app.goto(new AlbumView())
+	album: (albumId) ->
+		@app.showAlbum(albumId)
 
-	photo: (id) ->
-		@app.goto(new PhotoView())
+	photo: (albumId, photoId) ->
+		@app.showAlbum(albumId, photoId)
 
 module.exports = Router
