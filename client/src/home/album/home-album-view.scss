@@ -18,11 +18,15 @@
 	}
 
 	&.loaded {
-		opacity: 1;
+		.spinner-container {
+			opacity: 0;
+		}
 	}
 
 	&.loading {
-		opacity: 0
+		.spinner-container {
+			opacity: 1;
+		}
 	}
 
 	.cover {

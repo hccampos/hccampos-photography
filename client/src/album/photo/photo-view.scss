@@ -72,32 +72,3 @@
 		opacity: 0;
 	}
 }
-
-.spinner-container {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	opacity: 0;
-	@include transition(opacity 0.5s ease-in-out);
-}
-
-.spinner {
-	width: $spinner-size;
-	height: $spinner-size;
-	margin-left: -$spinner-size / 2;
-	margin-top: -$spinner-size / 2;
-	background: #555;
-	border-radius: 100%;
-	opacity: 1;
-
-	@include animation(spinnerAnimation 2s infinite ease-in-out);
-}
-
-@include keyframes(spinnerAnimation) {
-	0% {
-		@include transform(scale(0.0));
-	} 100% {
-		@include transform(scale(1.0));
-		opacity: 0;
-	}
-}

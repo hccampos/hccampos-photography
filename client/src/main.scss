@@ -59,6 +59,7 @@ button,
 	background: lighten($dark-color, 4%);
 }
 
+@import "_spinner";
 @import "header/header";
 @import "home/home-view";
 @import "album/album-view";
