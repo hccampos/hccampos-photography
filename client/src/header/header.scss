@@ -15,22 +15,18 @@ header {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: $header-height;
-	padding: $half-padding $padding;
-	padding-top: $half-padding + 1px;
 	z-index: 100;
 	background: $bg-color;
-	box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+	//box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 	@include transform(translate3d(0,0,0));
 
 	h1 {
 		margin: 0;
 		padding: 0;
-		height: $header-height - $padding;
 		overflow: hidden;
 	}
 
-	a {
+	h1 a {
 		display: inline-block;
 		margin: 0;
 		text-decoration: none;
@@ -47,29 +43,25 @@ header {
 		.name {
 			font-family: "Adam";
 			float: left;
-			margin-right: $half-padding / 2;
 			color: $text-color;
 		}
 
 		.hugo {
 			display: block;
-			font-size: 30px;
-			line-height: 24px;
+			vertical-align: top;
 		}
 
 		.campos {
 			display: block;
-			font-size: 21px;
-			line-height: 20px;
+			vertical-align: top;
 		}
 
 		.photography {
 			display: inline-block;
 			font-family: "Adamas";
-			font-size: 42px;
-			line-height: 45px;
 			font-weight: normal;
 			color: $header-secondary-color;
+			vertical-align: top;
 
 			@include animation-name(rainbow);
 			@include animation-duration(30s);
@@ -77,4 +69,109 @@ header {
 			@include animation-iteration-count(infinite);
 		}
 	}
+
+	a.close {
+		position: absolute;
+		top: $half-padding;
+		right: $padding;
+		width: $close-album-size;
+		height: $close-album-size;
+		@include transform(rotate(45deg));
+		@include transition(all $transition-duration);
+
+		&:before,
+		&:after {
+			content: ' ';
+			background: white;
+			display: block;
+			position: absolute;
+		}
+
+		&:before {
+			width: $close-album-size;
+			height: 1px;
+			top: $close-album-size / 2;
+			left: 0px;
+		}
+
+		&:after {
+			width: 1px;
+			height: $close-album-size;
+			top: 0;
+			left: $close-album-size / 2;
+		}
+
+		&:hover {
+			@include transform(rotate(-45deg));
+		}
+
+		&.disabled {
+			opacity: 0;
+			pointer-events: none;
+		}
+	}
+
+	@mixin header-size ($s) {
+		height: $header-height * $s;
+		padding: ($half-padding * $s) ($padding * $s);
+		padding-top: ($half-padding + 1px) * $s;
+
+		h1 {
+			height: ($header-height - $padding) * $s;
+		}
+
+		h1 a {
+			.name {
+				margin-right: ($padding / 4) * $s;
+			}
+
+			.hugo {
+				font-size: 30px * $s;
+				line-height: 25px * $s;
+			}
+
+			.campos {
+				font-size: 21px * $s;
+				line-height: 20px * $s;
+			}
+
+			.photography {
+				font-size: 42px * $s;
+				line-height: 45px * $s;
+			}
+		}
+
+		a.close {
+			top: $half-padding * $s;
+			right: $padding * $s;
+			width: $close-album-size * $s;
+			height: $close-album-size * $s;
+
+			&:before {
+				width: $close-album-size * $s;
+				height: 1px;
+				top: ($close-album-size / 2) * $s;
+				left: 0px;
+			}
+
+			&:after {
+				width: 1px;
+				height: $close-album-size * $s;
+				top: 0;
+				left: ($close-album-size / 2) * $s;
+			}
+		}
+	}
+
+	@include header-size(1);
+
+	@media (max-width: 500px) {
+		@include header-size(0.7);
+		padding: $half-padding * 0.7;
+		a.close {
+			right: $half-padding * 0.7;
+		}
+	}
 }
+
+

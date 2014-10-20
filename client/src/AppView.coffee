@@ -18,6 +18,8 @@ AppView = BaseView.extend
 	Shows the list of all the albums.
 	###
 	showAlbums: ->
+		@closeAlbumLinkEl.classList.add('disabled')
+
 		LoadUtils.loadJSON('/data/albums.json')
 		.then (albums) =>
 			@goto(new HomeView(albums: albums))
@@ -31,6 +33,8 @@ AppView = BaseView.extend
 		The id of the photo which is to be shown.
 	###
 	showAlbum: (albumId, photoId) ->
+		@closeAlbumLinkEl.classList.remove('disabled')
+
 		# We are in the same album, only viewing a different photo...
 		if @currentView instanceof AlbumView and @currentView.data.id == albumId
 			return @currentView.showPhoto(photoId)
@@ -47,6 +51,7 @@ AppView = BaseView.extend
 	render: ->
 		@el.innerHTML = @template()
 		@viewEl = @el.querySelector('.view')
+		@closeAlbumLinkEl = @el.querySelector('a.close-album')
 		return @
 
 	goto: (view) ->

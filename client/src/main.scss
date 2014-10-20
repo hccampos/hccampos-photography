@@ -29,7 +29,7 @@ body {
 
 button,
 .button {
-	font-family: "Forum", Sans;
+	font-family: $button-font;
 	text-decoration: none;
 	color: $text-color;
 	font-size: $font-size * 2;
@@ -37,14 +37,26 @@ button,
 	padding: $half-padding ($double-padding);
 	line-height: $font-size * 2;
 	padding-bottom: $half-padding * 0.7;
-	border: solid 3px $bright-color;
+	border: solid 1px $bright-color;
 
-	@include transition(all 0.2s);
+	@include transition(all 0.3s);
 
 	&:hover {
 		background: $text-color;
 		color: $dark-color;
 	}
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+::-webkit-scrollbar-track {
+	background: darken($dark-color, 5%);
+}
+
+::-webkit-scrollbar-thumb {
+	background: lighten($dark-color, 4%);
 }
 
 @import "header/header";

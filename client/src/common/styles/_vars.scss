@@ -1,6 +1,6 @@
 // Colors
 $dark-color: #111;
-$bright-color: darken(white, 20%);
+$bright-color: darken(white, 10%);
 
 $bg-color: $dark-color;
 $header-secondary-color: #103155;
@@ -8,7 +8,8 @@ $text-color: $bright-color;
 
 // Fonts
 $body-font: "Forum";
-$titles-font: "Forum";
+$titles-font: "Adam";
+$button-font: "Adam";
 
 // Sizes
 $font-size: 16px;
@@ -23,6 +24,18 @@ $album-height: 450px;
 $album-cover-aspect: 16 / 9;
 
 // Others
-
-$photo-transition-duration: 0.2s;
+$transition-duration: 0.3s;
+$photo-transition-duration: 0.5s;
 $page-transition-duration: 0.5s;
+
+// Header
+$close-album-size: 45px;
+$close-album-color: $bright-color;
+
+// Spinner
+$spinner-size: 40px;
+$spinner-color: #ddd;
+
+// Arrows
+$nav-arrow-size: 30px;
+$nav-arrow-color: transparentize($bright-color, 0.95);

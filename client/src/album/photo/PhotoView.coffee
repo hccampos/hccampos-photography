@@ -30,9 +30,11 @@ PhotoView = BaseView.extend
 		el.classList.add(LOADING_CLASS)
 
 		LoadUtils.loadImage(@data.url)
-		.then =>
+		.then (img) =>
+			titleEl = el.querySelector('.title')
 			imgEl = el.querySelector('.img')
 			if imgEl?
+				#imgContainerEl.insertBefore(img, titleEl)
 				imgEl.style.backgroundImage = "url('#{@data.url}')"
 
 			el.classList.remove(LOADING_CLASS)
