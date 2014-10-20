@@ -21,7 +21,6 @@ header {
 	width: 100%;
 	z-index: 100;
 	background: $bg-color;
-	//box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 	@include transform(translate3d(0,0,0));
 
 	h1 {
@@ -105,7 +104,7 @@ header {
 		right: $padding;
 		width: $close-album-size;
 		height: $close-album-size;
-		@include transform(rotate(45deg));
+		@include transform(translate3d(0, 0, 0) rotate(45deg));
 		@include transition(all $transition-duration);
 
 		&:before,
@@ -131,11 +130,12 @@ header {
 		}
 
 		&:hover {
-			@include transform(rotate(-45deg));
+			@include transform(translate3d(0, 0, 0) rotate(-45deg));
 		}
 
 		&.hidden {
 			opacity: 0;
+			@include transform(translate3d(50px, 0, 0) rotate(45deg));
 			pointer-events: none;
 		}
 	}
