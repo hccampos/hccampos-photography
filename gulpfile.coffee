@@ -120,3 +120,4 @@ gulp.task('build', [
 gulp.task('default', ['config:dev', 'watch', 'build'])
 gulp.task('production', ['config:prod', 'build'])
 gulp.task('heroku:production', ['production'])
+gulp.task('heroku', ['production'])
