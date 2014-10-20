@@ -28,6 +28,7 @@
 		position: relative;
 		display: block;
 		width: 100%;
+		max-width: 80%;
 		margin-top: $padding / 3;
 		text-align: center;
 		font-size: 22px;
@@ -36,6 +37,14 @@
 		@include flex-shrink(0);
 		@include flex-grow(0);
 		@include transition(all $transition-duration ease-in-out);
+	}
+
+	.description {
+		font-size: 15px;
+		font-family: $body-font;
+		font-weight: 300;
+		@include flex-shrink(0);
+		@include flex-grow(0);
 	}
 
 	img {

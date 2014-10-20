@@ -13,6 +13,10 @@
 	margin: 0;
 
 	.gallery {
+		@include display(flex);
+		@include align-items(center);
+		@include justify-content(center);
+		@include flex-direction(column);
 		position: relative;
 		width: 100%;
 		height: 100%;
@@ -22,6 +26,7 @@
 
 	.photo-container {
 		position: relative;
+		width: 100%;
 		height: 100%;
 	}
 
@@ -75,8 +80,8 @@
 		}
 
 		&:hover .arrow {
-			border-top-color: opacify($nav-arrow-color, 0.8);
-			border-right-color: opacify($nav-arrow-color, 0.8);
+			border-top-color: opacify($nav-arrow-color, 0.5);
+			border-right-color: opacify($nav-arrow-color, 0.5);
 		}
 	}
 

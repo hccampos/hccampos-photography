@@ -12,4 +12,9 @@
 	}
 
 	@import "album/home-album-view";
+
+	@media (max-width: 800px) {
+		padding: $padding;
+		padding-top: $padding - 15px;
+	}
 }

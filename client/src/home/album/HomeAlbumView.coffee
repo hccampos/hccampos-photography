@@ -33,9 +33,9 @@ HomeAlbumView = BaseView.extend
 			el.classList.remove(LOADING_CLASS)
 			el.classList.add(LOADED_CLASS)
 
-			coverEl = el.querySelector('.cover')
-			if coverEl
-				coverEl.style.backgroundImage = "url('#{src}')"
+			coverImgEl = el.querySelector('.cover .img')
+			if coverImgEl
+				coverImgEl.style.backgroundImage = "url('#{src}')"
 
 
 module.exports = HomeAlbumView

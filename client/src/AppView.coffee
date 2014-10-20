@@ -14,13 +14,21 @@ AppView = BaseView.extend
 	initialize: (options) ->
 		@router = new Router(app: @)
 
+	loadAlbums: ->
+		LoadUtils.loadJSON('https://dl.dropboxusercontent.com/u/2988676/hccphoto/albums.json')
+
+	loadAlbum: (album) ->
+		id = album.id ? album
+		LoadUtils.loadJSON("https://dl.dropboxusercontent.com/u/2988676/hccphoto/#{id}.json")
+
 	###
 	Shows the list of all the albums.
 	###
 	showAlbums: ->
-		@closeAlbumLinkEl.classList.add('disabled')
+		@closeAlbumLinkEl?.classList.add('hidden')
+		@albumTitleEl?.classList.add('hidden')
 
-		LoadUtils.loadJSON('/data/albums.json')
+		@loadAlbums()
 		.then (albums) =>
 			@goto(new HomeView(albums: albums))
 
@@ -33,25 +41,35 @@ AppView = BaseView.extend
 		The id of the photo which is to be shown.
 	###
 	showAlbum: (albumId, photoId) ->
-		@closeAlbumLinkEl.classList.remove('disabled')
-
 		# We are in the same album, only viewing a different photo...
 		if @currentView instanceof AlbumView and @currentView.data.id == albumId
 			return @currentView.showPhoto(photoId)
 
-		LoadUtils.loadJSON("/data/album-#{albumId}.json")
+		album = null
+
+		@loadAlbums().then (albums) =>
+			album = _.find albums, (a) -> "#{a.id}" == "#{albumId}"
+			@loadAlbum(album)
 		.then (photos) =>
 			view = new AlbumView
-				id: albumId
+				id: album.id
+				album: album
 				photos: photos
 
-			@goto(view).then ->
+			@goto(view).then =>
+				@closeAlbumLinkEl?.classList.remove('hidden')
+				@albumTitleEl?.innerHTML = album.name
+				@albumTitleEl?.classList.remove('hidden')
+
 				view.showPhoto(photoId ? photos?[0]?.id)
+		, (error) =>
+			@router.navigate('/')
 
 	render: ->
 		@el.innerHTML = @template()
 		@viewEl = @el.querySelector('.view')
 		@closeAlbumLinkEl = @el.querySelector('a.close-album')
+		@albumTitleEl = @el.querySelector('header .album-title')
 		return @
 
 	goto: (view) ->

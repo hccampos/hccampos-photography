@@ -11,6 +11,10 @@
 }
 
 header {
+	@include display(flex);
+	@include flex-direction(row);
+	@include align-items(center);
+	@include justify-content(flex-start);
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -24,6 +28,8 @@ header {
 		margin: 0;
 		padding: 0;
 		overflow: hidden;
+		@include flex-shrink(0);
+		@include flex-grow(0);
 	}
 
 	h1 a {
@@ -70,6 +76,29 @@ header {
 		}
 	}
 
+	.album-title {
+		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: 25px;
+		font-weight: 300px;
+		font-family: $titles-font;
+		margin-left: $padding;
+		margin-right: $close-album-size;
+		color: transparentize($bright-color, 0.2);
+		opacity: 1;
+		@include flex-grow(1);
+		@include flex-shrink(1);
+		@include transform(translate3d(0, 0, 0));
+		@include transition(all $transition-duration ease-in-out);
+
+		&.hidden {
+			opacity: 0;
+			@include transform(translate3d(0, -20px, 0));
+		}
+	}
+
 	a.close {
 		position: absolute;
 		top: $half-padding;
@@ -82,7 +111,7 @@ header {
 		&:before,
 		&:after {
 			content: ' ';
-			background: white;
+			background: $bright-color;
 			display: block;
 			position: absolute;
 		}
@@ -105,7 +134,7 @@ header {
 			@include transform(rotate(-45deg));
 		}
 
-		&.disabled {
+		&.hidden {
 			opacity: 0;
 			pointer-events: none;
 		}
@@ -165,11 +194,17 @@ header {
 
 	@include header-size(1);
 
-	@media (max-width: 500px) {
+	@media (max-width: 600px) {
 		@include header-size(0.7);
 		padding: $half-padding * 0.7;
 		a.close {
 			right: $half-padding * 0.7;
+		}
+	}
+
+	@media (max-width: 950px) {
+		.album-title {
+			display: none;
 		}
 	}
 }

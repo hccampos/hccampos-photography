@@ -1,0 +1,16 @@
+[
+	id: '1'
+	name: 'Photo 1'
+	description: 'Some photo taken sometime'
+	url: 'img/img1.jpg'
+,
+	id: '2'
+	name: 'Photo 2'
+	description: 'Some photo taken sometime'
+	url: 'img/img2.png'
+,
+	id: '3'
+	name: 'Photo 3'
+	description: 'Some photo taken sometime'
+	url: 'img/img1.jpg'
+]
