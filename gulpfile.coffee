@@ -1,6 +1,4 @@
-require('coffee-script')
 gulp = require('gulp')
-
 path = require('path')
 browserify = require('gulp-browserify')
 coffee = require('gulp-coffee')

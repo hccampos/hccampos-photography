@@ -38,6 +38,6 @@
     "node": "0.10.x"
   },
   "scripts": {
-    "start": "coffee server/src/app.coffee"
+    "start": "coffee server/src/app"
   }
 }
