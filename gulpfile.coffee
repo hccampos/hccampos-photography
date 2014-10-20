@@ -11,7 +11,7 @@ gulpif = require('gulp-if')
 htmlmin = require('gulp-htmlmin')
 plumber = require('gulp-plumber')
 rename = require('gulp-rename')
-sass = require('gulp-sass')
+sass = require('gulp-ruby-sass')
 uglify = require('gulp-uglify')
 
 projectName = require('./package.json').name
@@ -82,10 +82,11 @@ gulp.task 'styles', ['clean'], ->
 
 	gulp.src(paths.styles.main)
 		.pipe(safe(sass({
-			outputStyle: outputStyle
-			includePaths: ['./client/src/common/styles']
+			sourcemap: false
+			style: outputStyle
+			loadPath: ['./client/src/common/styles']
 		})))
-		.pipe(rename("#{projectName}.css"))
+		.pipe(gulpif(/^.*\.css$/, rename("#{projectName}.css")))
 		.pipe(gulp.dest('build'))
 
 
