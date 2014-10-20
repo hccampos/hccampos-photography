@@ -31,12 +31,13 @@
     "hbsfy": "^2.2.0",
     "lodash": "^2.4.1",
     "promiscuous": "^0.6.0",
-    "serve-static": "^1.6.0"
+    "serve-static": "^1.6.0",
+    "bourbon": "git://github.com/thoughtbot/bourbon#v3.2.1"
   },
   "engines": {
     "node": "0.10.x"
   },
-  "devDependencies": {
-    "bourbon": "git://github.com/thoughtbot/bourbon#v3.2.1"
+  "scripts": {
+    "start": "coffee server/src/app.coffee"
   }
 }
