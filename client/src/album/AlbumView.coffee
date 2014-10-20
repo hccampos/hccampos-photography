@@ -16,6 +16,9 @@ AlbumView = BaseView.extend
 		'click .photo': 'nextPhoto'
 
 	initialize: (options) ->
+		@app = options.app
+		delete options.app
+
 		@data = _.extend({}, options)
 		@photoViews = []
 		@currentPhotoIndex = 0
@@ -52,6 +55,7 @@ AlbumView = BaseView.extend
 			if photoId == id
 				@currentPhotoIndex = index
 				photoView.show()
+				@app.router.navigate("/albums/#{@data.album.id}/#{photoId}", {trigger: false});
 			else
 				photoView.hide()
 

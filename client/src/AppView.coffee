@@ -52,6 +52,7 @@ AppView = BaseView.extend
 			@loadAlbum(album)
 		.then (photos) =>
 			view = new AlbumView
+				app: @
 				id: album.id
 				album: album
 				photos: photos
