@@ -34,6 +34,11 @@
 		font-size: 22px;
 		font-family: $titles-font;
 
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: 100%;
+
 		@include flex-shrink(0);
 		@include flex-grow(0);
 		@include transition(all $transition-duration ease-in-out);
@@ -45,6 +50,11 @@
 		font-weight: 300;
 		@include flex-shrink(0);
 		@include flex-grow(0);
+
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: 100%;
 	}
 
 	img {
@@ -79,5 +89,15 @@
 
 	&.hide {
 		opacity: 0;
+	}
+
+	@media (max-width: 600px) {
+		.title {
+			font-size: 18px;
+		}
+
+		.description {
+			font-size: 12px;
+		}
 	}
 }
