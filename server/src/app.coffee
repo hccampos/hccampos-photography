@@ -9,11 +9,11 @@ modRewrite = require('connect-modrewrite')
 servePath = path.resolve(__dirname + '/../../build')
 
 app = connect()
+	.use(compression())
 	.use(modRewrite([
 		'^/albums(.)*$ /index.html'
 	]))
 	.use(serveStatic(servePath, {'index': ['index.html']}))
-	.use(compression())
 
 server = http.createServer(app)
 port = Number(process.env.PORT ? 5000)
