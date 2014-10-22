@@ -32,8 +32,8 @@ AppView = BaseView.extend
 
 		LoadUtils.loadJSON('https://dl.dropboxusercontent.com/u/2988676/hccphoto/albums.json')
 		.then (albums) =>
-			@_albums = albums
-			return albums
+			@_albums ?= albums
+			return @_albums
 
 	###
 	Loads the list of photos for the specified album. If we already have the data
@@ -75,8 +75,7 @@ AppView = BaseView.extend
 		@closeAlbumLinkEl?.classList.add('hidden')
 		@albumTitleEl?.classList.add('hidden')
 
-		@loadAlbums()
-		.then =>
+		@loadAlbums().then =>
 			@goto(new HomeView(albums: @_albums), true)
 
 	###
@@ -92,8 +91,7 @@ AppView = BaseView.extend
 		if @currentView instanceof AlbumView and @currentView.data.id == albumId
 			return @currentView.showPhoto(photoId)
 
-		@loadPhotos(albumId)
-		.then =>
+		@loadPhotos(albumId).then =>
 			album = @getCachedAlbum(albumId)
 
 			view = new AlbumView
