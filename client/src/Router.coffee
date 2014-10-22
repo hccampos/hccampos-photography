@@ -17,11 +17,17 @@ Router = Backbone.Router.extend
 
 	home: ->
 		@app.showAlbums()
+		.then null, (error) ->
+			console.log(error)
 
 	album: (albumId) ->
 		@app.showAlbum(albumId)
+		.then null, (error) ->
+			console.log(error)
 
 	photo: (albumId, photoId) ->
 		@app.showAlbum(albumId, photoId)
+		.then null, (error) ->
+			console.log(error)
 
 module.exports = Router

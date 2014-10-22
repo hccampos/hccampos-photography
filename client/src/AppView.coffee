@@ -1,4 +1,5 @@
 _ = require('lodash')
+Promise = require('promiscuous')
 LoadUtils = require('./common/LoadUtils')
 Router = require('./Router')
 BaseView = require('./BaseView')
@@ -14,12 +15,58 @@ AppView = BaseView.extend
 	initialize: (options) ->
 		@router = new Router(app: @)
 
-	loadAlbums: ->
-		LoadUtils.loadJSON('https://dl.dropboxusercontent.com/u/2988676/hccphoto/albums.json')
+		# Preload all the albums and the associated photo lists so the site feels
+		# more responsive.
+		@_albums = null
+		@loadAlbums().then (albums) =>
+			@loadPhotos(album.id) for album in albums
 
-	loadAlbum: (album) ->
-		id = album.id ? album
-		LoadUtils.loadJSON("https://dl.dropboxusercontent.com/u/2988676/hccphoto/#{id}.json")
+	###
+	Loads the list of albums from the server and caches it. If we already have
+	the data in cache, we resolve right away.
+
+	Returns {Promise}
+	###
+	loadAlbums: ->
+		if @_albums? then return Promise.resolve(@_albums)
+
+		LoadUtils.loadJSON('https://dl.dropboxusercontent.com/u/2988676/hccphoto/albums.json')
+		.then (albums) =>
+			@_albums = albums
+			return albums
+
+	###
+	Loads the list of photos for the specified album. If we already have the data
+	in cache, we resolve right away.
+
+	Returns {Promise}
+	###
+	loadPhotos: (album) ->
+		albumId = album.id ? album
+		cachedAlbum = @getCachedAlbum(albumId)
+
+		# If we don't have the album we have to load it.
+		if not cachedAlbum?
+			return @loadAlbums().then =>
+				@loadPhotos(album)
+
+		# If we already have the photos, just resolve with them. Otherwise we
+		# will have to load them.
+		if cachedAlbum.photos?
+			return Promise.resolve(cachedAlbum.photos)
+
+		LoadUtils.loadJSON("https://dl.dropboxusercontent.com/u/2988676/hccphoto/#{albumId}.json")
+		.then (photos) =>
+			cachedAlbum.photos = photos
+			return photos
+
+	###
+	Gets an album from the cache by id.
+
+	Returns {Album}
+	###
+	getCachedAlbum: (id) ->
+		_.find @_albums, (a) -> "#{a.id}" == "#{id}"
 
 	###
 	Shows the list of all the albums.
@@ -29,8 +76,8 @@ AppView = BaseView.extend
 		@albumTitleEl?.classList.add('hidden')
 
 		@loadAlbums()
-		.then (albums) =>
-			@goto(new HomeView(albums: albums))
+		.then =>
+			@goto(new HomeView(albums: @_albums), true)
 
 	###
 	Shows an album and, optionally, a photo of that album.
@@ -45,17 +92,16 @@ AppView = BaseView.extend
 		if @currentView instanceof AlbumView and @currentView.data.id == albumId
 			return @currentView.showPhoto(photoId)
 
-		album = null
+		@loadPhotos(albumId)
+		.then =>
+			album = @getCachedAlbum(albumId)
 
-		@loadAlbums().then (albums) =>
-			album = _.find albums, (a) -> "#{a.id}" == "#{albumId}"
-			@loadAlbum(album)
-		.then (photos) =>
 			view = new AlbumView
 				app: @
 				id: album.id
 				album: album
-				photos: photos
+
+			@saveScrollPosition()
 
 			@goto(view).then =>
 				@closeAlbumLinkEl?.classList.remove('hidden')
@@ -66,6 +112,22 @@ AppView = BaseView.extend
 		, (error) =>
 			@router.navigate('/')
 
+	###
+	Saves the scroll position so we can restore it later.
+	###
+	saveScrollPosition: ->
+		@_scrollPos = document.body.scrollTop
+
+	###
+	Restores the scroll position to the last saved value.
+	###
+	restoreScrollPosition: ->
+		if @_scrollPos
+			document.body.scrollTop = @_scrollPos
+
+	###
+	Renders the app and grabs some necessary DOM elements.
+	###
 	render: ->
 		@el.innerHTML = @template()
 		@viewEl = @el.querySelector('.view')
@@ -73,7 +135,13 @@ AppView = BaseView.extend
 		@albumTitleEl = @el.querySelector('header .album-title')
 		return @
 
-	goto: (view) ->
+	###
+	Transitions to the specified page view.
+
+	{BaseView} view
+		The view to which the app should transition.
+	###
+	goto: (view, restoreScrollPosition=false) ->
 		if @_transitionPromise?
 			# If we are transitioning, let's wait for the transition to complete
 			# and then do the new transition.
@@ -87,7 +155,9 @@ AppView = BaseView.extend
 			next.render(page: true)
 			@viewEl.appendChild(next.el)
 			@currentPage = next
-			next.transitionIn()
+			if restoreScrollPosition
+				@restoreScrollPosition()
+			return next.transitionIn()
 
 		if previous?
 			@_transitionPromise = previous.transitionOut()

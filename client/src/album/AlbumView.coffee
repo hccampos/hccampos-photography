@@ -38,7 +38,7 @@ AlbumView = BaseView.extend
 
 		@photoViews = []
 
-		for photo in @data.photos
+		for photo in @data.album.photos
 			photoView = new PhotoView(photo)
 			photoView.render()
 			photoView.hide(true)
@@ -49,6 +49,7 @@ AlbumView = BaseView.extend
 
 	showPhoto: (id) ->
 		id = id?.toString()
+		id ?= '1'
 
 		for photoView, index in @photoViews
 			photoId = photoView.data.id.toString()
@@ -60,7 +61,7 @@ AlbumView = BaseView.extend
 				photoView.hide()
 
 	showPhotoAt: (index) ->
-		@showPhoto(@data.photos[index].id)
+		@showPhoto(@data.album.photos[index].id)
 
 	nextPhoto: ->
 		@currentPhotoIndex++
@@ -75,7 +76,7 @@ AlbumView = BaseView.extend
 		@showPhotoAt(@currentPhotoIndex)
 
 	getNumPhotos: ->
-		return @data.photos?.length ? 0
+		return @data.album.photos?.length ? 0
 
 	onKeydown: (event) ->
 		if event.keyCode == LEFT_KEY_CODE
