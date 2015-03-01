@@ -65,7 +65,6 @@ gulp.task 'scripts', ['clean'], ->
 			debug: !config.production
 		.on 'prebundle', (bundler) ->
 			bundler.require('lodash', {expose: 'underscore'})
-			bundler.exclude('jquery')
 
 	gulp.src(paths.scripts.main, {read: false})
 		.pipe(plumber())
@@ -78,12 +77,12 @@ gulp.task 'scripts', ['clean'], ->
 gulp.task 'styles', ['clean'], ->
 	outputStyle = if config.production then 'compressed' else 'nested'
 
-	gulp.src(paths.styles.main)
-		.pipe(safe(sass({
-			sourcemap: false
-			style: outputStyle
-			loadPath: ['./client/src/common/styles']
-		})))
+	options =
+		sourcemap: false
+		style: outputStyle
+		loadPath: './client/src/common/styles'
+
+	safe(sass(paths.styles.main, options))
 		.pipe(gulpif(/^.*\.css$/, rename("#{projectName}.css")))
 		.pipe(gulp.dest('build'))
 

@@ -1,4 +1,5 @@
 _ = require('lodash')
+Hammer = require('hammerjs')
 Backbone = require('exoskeleton')
 BaseView = require('../BaseView')
 PhotoView = require('./photo/PhotoView')
@@ -26,8 +27,16 @@ AlbumView = BaseView.extend
 		@onKeydown = @onKeydown.bind(@)
 		document.addEventListener('keydown', @onKeydown)
 
+		@hammer = new Hammer(@el);
+		@hammer.get('swipe').set(direction: Hammer.DIRECTION_HORIZONTAL)
+		@hammer.on 'swipeleft', =>
+			@nextPhoto()
+		@hammer.on 'swiperight', =>
+			@prevPhoto()
+
 	remove: ->
 		document.removeEventListener('keydown', @onKeydown)
+		@hammer.destroy()
 		Backbone.View.prototype.remove.call(@)
 
 	render: (options) ->
@@ -55,6 +64,11 @@ AlbumView = BaseView.extend
 			photoId = photoView.data.id.toString()
 			if photoId == id
 				@currentPhotoIndex = index
+
+				# Preload the previous and next photos.
+				@preloadPhotoAt(@getNextIndex(-1))
+				@preloadPhotoAt(@getNextIndex(1))
+
 				photoView.show()
 				@app.router.navigate("/albums/#{@data.album.id}/#{photoId}", {trigger: false});
 			else
@@ -63,17 +77,25 @@ AlbumView = BaseView.extend
 	showPhotoAt: (index) ->
 		@showPhoto(@data.album.photos[index].id)
 
+	preloadPhotoAt: (indexToPreload) ->
+		id = @data.album.photos[indexToPreload].id?.toString()
+		return unless id?
+
+		for photoView, index in @photoViews
+			photoId = photoView.data.id.toString()
+			if photoId == id then photoView.preloadImage()
+
 	nextPhoto: ->
-		@currentPhotoIndex++
-		if @currentPhotoIndex > (@getNumPhotos() - 1)
-			@currentPhotoIndex = 0
+		@currentPhotoIndex = @getNextIndex(1)
 		@showPhotoAt(@currentPhotoIndex)
 
 	prevPhoto: ->
-		@currentPhotoIndex--
-		if @currentPhotoIndex < 0
-			@currentPhotoIndex = @getNumPhotos() - 1
+		@currentPhotoIndex = @getNextIndex(-1)
 		@showPhotoAt(@currentPhotoIndex)
+
+	getNextIndex: (dir) ->
+		count = @getNumPhotos()
+		(@currentPhotoIndex + dir + count) % count
 
 	getNumPhotos: ->
 		return @data.album.photos?.length ? 0

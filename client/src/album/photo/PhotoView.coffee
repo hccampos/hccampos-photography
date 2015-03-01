@@ -15,22 +15,29 @@ PhotoView = BaseView.extend
 	initialize: (options) ->
 		@data = _.extend({}, options)
 		@isLoaded = false
+		@_preloadPromise = null
 
 	render: (options) ->
 		BaseView.prototype.render.call(@)
 
+	preloadImage: ->
+		if @_preloadPromise? then return Promise.resolve(@_preloadPromise)
+		if not @data.url? then return Promise.reject()
+
+		@_preloadPromise = LoadUtils.loadImage(@data.url).then (img) =>
+			@isLoaded = true
+			return img
+
+		return @_preloadPromise
+
 	loadImage: ->
-		# No need to load the image twice.
-		if @isLoaded then return Promise.resolve()
-		# Nothing to load...
 		if not @data.url? then return Promise.reject()
 
 		el = @el # So we don't have to use @ in a bunch of places.
 		el.classList.remove(LOADED_CLASS)
 		el.classList.add(LOADING_CLASS)
 
-		LoadUtils.loadImage(@data.url)
-		.then (img) =>
+		@preloadImage().then (img) =>
 			titleEl = el.querySelector('.title')
 			imgEl = el.querySelector('.img')
 			if imgEl?
