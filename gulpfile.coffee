@@ -80,11 +80,14 @@ gulp.task 'styles', ['clean'], ->
 	options =
 		sourcemap: false
 		style: outputStyle
-		loadPath: './client/src/common/styles'
+		includePaths: './client/src/common/styles'
 
-	safe(sass(paths.styles.main, options))
+	safe(
+		gulp.src(paths.styles.main)
+		.pipe(sass(options))
 		.pipe(gulpif(/^.*\.css$/, rename("#{projectName}.css")))
 		.pipe(gulp.dest('build'))
+	)
 
 
 gulp.task 'assets', ['clean'], ->
