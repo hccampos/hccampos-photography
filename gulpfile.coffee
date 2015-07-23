@@ -9,7 +9,7 @@ gulpif = require('gulp-if')
 htmlmin = require('gulp-htmlmin')
 plumber = require('gulp-plumber')
 rename = require('gulp-rename')
-sass = require('gulp-ruby-sass')
+sass = require('gulp-sass')
 uglify = require('gulp-uglify')
 
 projectName = require('./package.json').name
