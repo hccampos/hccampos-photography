@@ -4,6 +4,7 @@ Backbone = require('exoskeleton')
 BaseView = require('../BaseView')
 PhotoView = require('./photo/PhotoView')
 
+ESC_KEY_CODE = 27
 LEFT_KEY_CODE = 37
 RIGHT_KEY_CODE = 39
 
@@ -105,6 +106,8 @@ AlbumView = BaseView.extend
 			@prevPhoto()
 		else if event.keyCode == RIGHT_KEY_CODE
 			@nextPhoto()
+		else if event.keyCode == ESC_KEY_CODE
+			@app.router.home()
 
 
 module.exports = AlbumView

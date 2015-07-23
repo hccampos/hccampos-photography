@@ -74,6 +74,11 @@
 		text-transform: uppercase;
 		margin-bottom: $half-padding;
 		font-family: $titles-font;
+
+		a {
+			text-decoration: none !important;
+			color: $text-color !important;
+		}
 	}
 
 	.description {
@@ -81,6 +86,7 @@
 	}
 
 	.view-button {
+		margin: 0 auto;
 		margin-top: $double-padding;
 	}
 

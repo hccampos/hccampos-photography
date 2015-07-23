@@ -1,14 +1,20 @@
 @import "_vars";
 @import "_mixins";
 
-@include keyframes(rainbow) {
-	0%   { color: #3498db; }
-	20%  { color: lighten(#C91322, 30%); }
-	40%  { color: lighten(#ce097f, 20%); }
-	60%  { color: #f1c40f; }
-	80%  { color: lighten(#d35400, 10%); }
-	100% { color: #3498db; }
+@include keyframes(rainbowAnimation) {
+	$color1: lighten(blue, 40%);
+	$color2: lighten(red, 20%);
+	$color3: #f1c40f;
+	$color4: lighten(#d35400, 10%);
+
+	0%   { color: $color1; }
+	25%  { color: $color2; }
+	50%  { color: $color3; }
+	75%  { color: $color4; }
+	100%  { color: $color1; }
 }
+
+$rainbow-duration: 20s;
 
 header {
 	@include display(flex);
@@ -26,22 +32,21 @@ header {
 	h1 {
 		margin: 0;
 		padding: 0;
-		overflow: hidden;
+		overflow: visible;
 		@include flex-shrink(0);
 		@include flex-grow(0);
 	}
 
-	h1 a {
+	h1 .name-wrapper {
 		display: inline-block;
 		margin: 0;
 		text-decoration: none;
 		text-transform: uppercase;
-		color: inherit;
+		overflow: visible;
 
 		&:hover,
 		&:focus,
 		&:active {
-			color: inherit;
 			text-decoration: none;
 		}
 
@@ -65,13 +70,11 @@ header {
 			display: inline-block;
 			font-family: "Adamas";
 			font-weight: normal;
-			color: $header-secondary-color;
+			//color: $header-secondary-color;
 			vertical-align: top;
-
-			@include animation-name(rainbow);
-			@include animation-duration(30s);
+			@include animation(rainbowAnimation $rainbow-duration infinite);
 			@include animation-timing-function(ease);
-			@include animation-iteration-count(infinite);
+		    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
 		}
 	}
 
@@ -83,6 +86,7 @@ header {
 		font-family: $titles-font;
 		color: transparentize($bright-color, 0.2);
 		opacity: 1;
+		text-transform: uppercase;
 		@include flex-grow(1);
 		@include flex-shrink(1);
 		@include transform(translate3d(0, 0, 0));
@@ -125,7 +129,7 @@ header {
 			height: ($header-height - $padding) * $s;
 		}
 
-		h1 a {
+		h1 .name-wrapper {
 			.name {
 				margin-right: ($padding / 4) * $s;
 			}
@@ -151,6 +155,7 @@ header {
 			font-weight: 300px * $s;
 			margin-left: $padding * $s;
 			margin-right: $close-album-size * $s;
+			margin-top: -0.1em;
 			&.hidden {
 				@include transform(translate3d(0, -20px * $s, 0));
 			}
